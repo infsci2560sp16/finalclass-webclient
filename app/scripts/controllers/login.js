@@ -64,10 +64,31 @@ angular.module('webClientApp')
           }
         });
       };
-      $scope.register = function () {
-        console.log('clicked register()');
+      $scope.register = function (ev) {
+        loginService.register($scope.data.email, $scope.data.password).success(function (data, status) {          
+          console.log(status);
+          if (data !== null && data.res === true) {
+            $window.sessionStorage.accessToken = data.token;
+            $window.sessionStorage.grav = data.grav;  
+            $location.path( '/profile');          
+          } else {
+              // Appending dialog to document.body to cover sidenav in docs app
+              // Modal dialogs should fully cover application
+              // to prevent interaction outside of dialog
+              $mdDialog.show(
+                $mdDialog.alert()
+                  .parent(angular.element(document.querySelector('#container')))
+                  .clickOutsideToClose(true)
+                  .title('Login Error')
+                  .textContent(data.response || 'Unknown Error')
+                  .ariaLabel('Login Error')
+                  .ok('OK')
+                  .targetEvent(ev)
+              );
+          }
+        });
       };
-      $scope.forgotPassword = function () {
+      $scope.forgotPassword = function (ev) {
         console.log('clicked forgotPassword()');
       };
     }]);

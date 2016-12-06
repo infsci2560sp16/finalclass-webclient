@@ -18,7 +18,7 @@ function DialogController($scope, $window, $mdDialog, loginService) {
     $mdDialog.cancel();
   };
   $scope.changePassword = function(ev) {
-    loginService.changePassword($scope.oldPassword, $scope.newPassword, $window.sessionStorage.accessToken).success(function (data, status) {
+    loginService.changePassword($scope.oldPassword, $scope.newPassword, $window.sessionStorage.accessToken).success(function (data) {
       $mdDialog.hide();
       if (data === null || data.res === false) {
               // Appending dialog to document.body to cover sidenav in docs app

@@ -18,9 +18,9 @@ function DialogController($scope, $window, $mdDialog, loginService) {
     $mdDialog.cancel();
   };
   $scope.changePassword = function(ev) {
-    loginService.changePassword($scope.oldPassword, $scope.newPassword, $window.sessionStorage.accessToken).success(function (data) {
+    loginService.changePassword($scope.oldPassword, $scope.newPassword, $window.sessionStorage.accessToken).then(function (d) {      
       $mdDialog.hide();
-      if (data === null || data.res === false) {
+      if (d.data === null || d.data.res === false) {
               // Appending dialog to document.body to cover sidenav in docs app
               // Modal dialogs should fully cover application
               // to prevent interaction outside of dialog
@@ -29,7 +29,7 @@ function DialogController($scope, $window, $mdDialog, loginService) {
                   .parent(angular.element(document.querySelector('#container')))
                   .clickOutsideToClose(true)
                   .title('Error')
-                  .textContent(data.response || 'Unknown Error')
+                  .textContent(d.data.response || 'Unknown Error')
                   .ariaLabel('Error')
                   .ok('OK')
                   .targetEvent(ev)
